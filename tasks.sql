@@ -109,7 +109,7 @@ GO
 
 /*12) Увеличить минимальную зарплату для всех должностей в 1.5 раза*/
 UPDATE Job
-SET MinimalSalaryPerMonth = MinimalSalaryPerMonth / 2
+SET MinimalSalaryPerMonth = MinimalSalaryPerMonth * 1.5
 GO
 
 
