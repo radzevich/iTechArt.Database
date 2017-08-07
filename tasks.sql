@@ -36,7 +36,20 @@ GO
 
 /*6) Найти коды работников, зарплата которых в мае 2015 года снизилась по сравнению с 
 каким-либо предыдущим месяцем этого же года*/
-
+SELECT EmployeeId
+FROM
+(
+	SELECT EmployeeId, MAX(AMOUNT) as innerMax
+	FROM Salary
+	WHERE Year = 2015 and Month < 5
+	GROUP BY EmployeeId
+) inner_query
+WHERE EmployeeId IN (
+	SELECT EmployeeId 
+	FROM Salary
+	WHERE Year = 2015 and Month = 5 and Amount < innerMax
+)
+GO
 
 
 /*7) Получить информацию о кодах, названиях отделов и количестве работающих в этих 
