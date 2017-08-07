@@ -26,37 +26,27 @@ GO
 
 
 /*5) Найти фамилии работников, которым была начислена зарплата в январе 2015 года*/
-SELECT Name From Employee
-JOIN Salary as s ON Employee.Id = s.EmployeeId
-WHERE s.Year = 2015 and s.Month = 1;
-GO
-SELECT NAME FROM Employee
-WHERE Id = (
+SELECT Name FROM Employee
+WHERE Id IN (
 	SELECT EmployeeId FROM Salary 
 	WHERE Year = 2015 and Month = 1
 )
+GO
 
 
-/*TODO*/
 /*6) Найти коды работников, зарплата которых в мае 2015 года снизилась по сравнению с 
 каким-либо предыдущим месяцем этого же года*/
-SELECT EmployeeId FROM Salary 
-WHERE YEAR = 2015 and Month = 5 and Amount < (
-	SELECT MAX(AMOUNT) 
-	FROM Salary WHERE YEAR = 2015 and Month < 5
-)
-GROUP BY EmployeeId
-GO
+
 
 
 /*7) Получить информацию о кодах, названиях отделов и количестве работающих в этих 
 	отделах в настоящее время сотрудников*/
-SELECT Id, Name, Count(d.Id) FROM Career as c
-JOIN Department as d
-	ON c.DepartmentId = d.Id
-WHERE DismissalDate IS NOT NULL
-GROUP BY Id, Name
-GO
+SELECT Id, Name, 
+	(SELECT COUNT(EmployeeId) 
+	 FROM Career 
+	 WHERE DismissalDate IS NULL and DepartmentId = d.Id
+	)
+FROM Department AS d
 
 
 /*8) Найти среднюю начисленную зарплату за 2015 год в разрезе работников*/
