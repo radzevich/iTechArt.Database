@@ -7,26 +7,31 @@ GO
 
 
 /*2) Получить коды и названия должностей, чья минимальная зарплата не превышает 500*/
-SELECT Id, Position FROM Job 
+SELECT Id, Position 
+FROM Job 
 WHERE MinimalSalaryPerMonth <= 500
 GO
 
 
 /*3) Получить среднюю заработную плату начисленную в январе 2015 года*/
-SELECT AVG (Amount) FROM Salary 
+SELECT AVG (Amount) 
+FROM Salary 
 WHERE Year = 2015 and Month = 1
 GO
 
 
 /*4) Получить имя самого старого работника, а также его возраст*/
-SELECT Name FROM Employee WHERE Birthday = (
+SELECT Name 
+FROM Employee 
+WHERE Birthday = (
 	SELECT MIN(Birthday) FROM Employee
 	);
 GO
 
 
 /*5) Найти фамилии работников, которым была начислена зарплата в январе 2015 года*/
-SELECT Name FROM Employee
+SELECT Name 
+FROM Employee
 WHERE Id IN (
 	SELECT EmployeeId FROM Salary 
 	WHERE Year = 2015 and Month = 1
@@ -89,7 +94,8 @@ GO
 
 
 /*10) Найти имена тех работников, начисленная зарплата которых за январь 2015 превысила 1000*/
-SELECT Name FROM Employee AS e
+SELECT Name 
+FROM Employee AS e
 JOIN Salary as s ON e.Id = s.EmployeeId
 WHERE s.Year = 2015 and s.Month = 1 and s.Amount > 1000
 GO
